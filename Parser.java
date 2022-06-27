@@ -2911,34 +2911,24 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
  
- public void report_error(String message, Object info) {
-    StringBuilder m = new StringBuilder("Error ");
-    if (info instanceof java_cup.runtime.Symbol) {
-    	String tmp=info.toString();
-    	int index=tmp.indexOf("sym:");
-    	
-    	int end=0;
-    	for(int i=index+5;i<tmp.length();i++) {
-    		if(tmp.charAt(i)>=48 && tmp.charAt(i)<=57) {
-    			end=i;
-    		}
-    		else break;
-    	}
-    	
-		m.append("Token "+ sym.terminalNames[ Integer.parseInt(tmp.substring(index+5,end+1))]+" can't be used here");
-      m.append( "("+tmp+")");
-    }
-    m.append(" : "+message);
-   
-    System.out.println(m);
-  }
-   
-  public void report_fatal_error(String message, Object info) {
-    report_error(message, info);
-    throw new RuntimeException("Fatal Syntax Error");
-  }
-    private int X = 10, Y = 8,temp=0;
+	public void report_error(String message, Object info) {
+		StringBuilder m = new StringBuilder("Error ");
 
+		if (info instanceof java_cup.runtime.Symbol) 
+		m.append( "("+info.toString()+")" );
+		
+		m.append(" : "+message);
+	
+		System.out.println(m);
+	}
+   
+	public void report_fatal_error(String message, Object info) {
+	report_error(message, info);
+	throw new RuntimeException("Fatal Syntax Error");
+	}
+	private int X = -1;
+	private int Y = -1;
+	private int BUFFER = 0;
 
 
 
@@ -3827,10 +3817,10 @@ class CUP$Parser$actions {
 		
 		
 			if( ((String)name).equals("x")){
-				X=temp;
+				X=BUFFER;
 			}
 			else if( ((String)name).equals("y") ){
-				Y=temp;
+				Y=BUFFER;
 			}
 		
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("variable_declarator",42, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
@@ -5173,7 +5163,7 @@ class CUP$Parser$actions {
 		
 		RESULT=n;
 		if(n!=null){
-			temp=(Integer)n;
+			BUFFER=(Integer)n;
 		}
 		
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("primary_no_new_array",116, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);

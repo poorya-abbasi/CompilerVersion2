@@ -1,77 +1,25 @@
 import java_cup.runtime.*;
 import java.util.Random;
 
-/* August 1999 - modified by Gerwin Klein <lsf@jflex.de>
-                 to interface with JFlex scanners,
-                 allows empty semicolon in class decls.
-  
-  changed productions:
-
-  class_member_declaration ::=
-	  	field_declaration
-  	|	method_declaration
-    [..]
-  	|	interface_declaration
-    | SEMICOLON
-  	;
-
-  interface_member_declaration ::=
-  		constant_declaration
-	  |	abstract_method_declaration
-  	|	class_declaration
-  	|	interface_declaration
-    | SEMICOLON
-	  ;
-
-*/
-
-
-/* Java 1.2 parser for CUP.  
- * Copyright (C) 1998 C. Scott Ananian <cananian@alumni.princeton.edu>
- * This program is released under the terms of the GPL; see the file
- * COPYING for more details.  There is NO WARRANTY on this code.
- */
-
-/*
-JDK 1.2 Features added:
-  strictfp modifier.
-  explicit_constructor_invocation ::= ...
-        | primary DOT THIS LPAREN argument_list_opt RPAREN SEMICOLON ;
-  field_access ::= ...
-        |       name DOT SUPER DOT IDENTIFIER ;
-  method_invocation ::= ...
-        |       name DOT SUPER DOT IDENTIFIER LPAREN argument_list_opt RPAREN ;
-*/
-
 parser code  {: 
- public void report_error(String message, Object info) {
-    StringBuilder m = new StringBuilder("Error ");
-    if (info instanceof java_cup.runtime.Symbol) {
-    	String tmp=info.toString();
-    	int index=tmp.indexOf("sym:");
-    	
-    	int end=0;
-    	for(int i=index+5;i<tmp.length();i++) {
-    		if(tmp.charAt(i)>=48 && tmp.charAt(i)<=57) {
-    			end=i;
-    		}
-    		else break;
-    	}
-    	
-		m.append("Token "+ sym.terminalNames[ Integer.parseInt(tmp.substring(index+5,end+1))]+" can't be used here");
-      m.append( "("+tmp+")");
-    }
-    m.append(" : "+message);
-   
-    System.out.println(m);
-  }
-   
-  public void report_fatal_error(String message, Object info) {
-    report_error(message, info);
-    throw new RuntimeException("Fatal Syntax Error");
-  }
-    private int X = 10, Y = 8,temp=0;
+	public void report_error(String message, Object info) {
+		StringBuilder m = new StringBuilder("Error ");
 
+		if (info instanceof java_cup.runtime.Symbol) 
+		m.append( "("+info.toString()+")" );
+		
+		m.append(" : "+message);
+	
+		System.out.println(m);
+	}
+   
+	public void report_fatal_error(String message, Object info) {
+	report_error(message, info);
+	throw new RuntimeException("Fatal Syntax Error");
+	}
+	private int X = -1;
+	private int Y = -1;
+	private int BUFFER = 0;
 
 :};
 
@@ -422,10 +370,10 @@ variable_declarator ::=
 	| variable_declarator_id:name EQ variable_initializer:n{:
 		
 			if( ((String)name).equals("x")){
-				X=temp;
+				X=BUFFER;
 			}
 			else if( ((String)name).equals("y") ){
-				Y=temp;
+				Y=BUFFER;
 			}
 		:}
 	
@@ -741,7 +689,7 @@ primary_no_new_array ::=
 		literal:n{:
 		RESULT=n;
 		if(n!=null){
-			temp=(Integer)n;
+			BUFFER=(Integer)n;
 		}
 		:}
 	|	THIS
