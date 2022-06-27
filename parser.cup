@@ -85,7 +85,7 @@ terminal STRICTFP;
 terminal CONST, GOTO;
 
 //custom
-terminal CALCFUN;
+terminal MYFUN;
 terminal MAINFUN;
 
 
@@ -365,10 +365,8 @@ variable_declarators ::=
 	;
 //changed
 variable_declarator ::=
-		
 		variable_declarator_id
 	| variable_declarator_id:name EQ variable_initializer:n{:
-		
 			if( ((String)name).equals("x")){
 				X=BUFFER;
 			}
@@ -381,7 +379,7 @@ variable_declarator ::=
 	;
 //changed
 variable_declarator_id ::=
-		IDENTIFIER:tmp {:RESULT=tmp;:}
+		IDENTIFIER:buffer {:RESULT=buffer;:}
 	|	variable_declarator_id LBRACK RBRACK
 	;
 variable_initializer ::=
@@ -398,10 +396,8 @@ method_header ::=
 	|	modifiers_opt VOID method_declarator throws_opt
 	;
 method_declarator ::=
-		CALCFUN LPAREN formal_parameter_list_opt RPAREN 
+		MYFUN LPAREN formal_parameter_list_opt RPAREN 
 	|	MAINFUN LPAREN formal_parameter_list_opt RPAREN 
-	//|	method_declarator LBRACK RBRACK // deprecated
-	// be careful; the above production also allows 'void foo() []'
 	;
 formal_parameter_list_opt ::=
 	|	formal_parameter_list
@@ -742,7 +738,7 @@ field_access ::=
 	|	name DOT SUPER DOT IDENTIFIER
 	;
 method_invocation ::=
-		CALCFUN LPAREN integer_var:x COMMA integer_var:y RPAREN {:
+		MYFUN LPAREN integer_var:x COMMA integer_var:y RPAREN {:
 		if(x==-1)x=X;
 		if(y==-1)y=Y;
 			Random rand = new Random();
@@ -750,10 +746,10 @@ method_invocation ::=
 		while(y>=-2) {
 			z=rand.nextInt(10)+1;
 			if((x-y)%z==0) {
-				System.out.println("X: "+x+" Y: "+y+" Z: "+z+"| sadness("+y+")");
+				System.out.println("sadness("+y+")");
 			}
 			else {
-				System.out.println("X: "+x+" Y: "+y+" Z: "+z+"| summertime("+y+")");
+				System.out.println("summertime("+y+")");
 			}
 			y--;
 		}

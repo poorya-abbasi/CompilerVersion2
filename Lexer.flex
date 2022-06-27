@@ -163,7 +163,7 @@ SingleCharacter = [^\r\n\'\\]
   "strictfp"                     { return symbol(STRICTFP); }
 
   //custom
-  "calc"                         { return symbol(CALCFUN); }
+  "func"                         { return symbol(MYFUN); }
   "main"                         { return symbol(MAINFUN); }
 
   /* boolean literals */

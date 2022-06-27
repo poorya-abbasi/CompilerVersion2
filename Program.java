@@ -1,7 +1,14 @@
 import java.util.Random;
 
 public class Program {
-	public static void calc(int x, int y) {
+
+	public static void main(String[] args) {
+		int x = 13;
+		int y = 14;
+		func(x, y);
+	}
+
+	public static void func(int x, int y) {
 		Random rand = new Random();
 		int z = 0;
 		while (y >= -2) {
@@ -13,11 +20,5 @@ public class Program {
 			}
 			y--;
 		}
-	}
-
-	public static void main(String[] args) {
-		int x = 13;
-		int y = 14;
-		calc(x, y);
 	}
 }
