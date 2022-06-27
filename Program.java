@@ -16,7 +16,7 @@ public class Program {
 	}
 
 	public static void main(String[] args) {
-		int x = 10;
+		int x = 13;
 		int y = 14;
 		calc(x, y);
 	}
