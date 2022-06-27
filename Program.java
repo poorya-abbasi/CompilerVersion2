@@ -16,8 +16,8 @@ public class Program {
 	}
 
 	public static void main(String[] args) {
-		int x = 14002;
-		int y = 14011;
+		int x = 10;
+		int y = 14;
 		calc(x, y);
 	}
 }

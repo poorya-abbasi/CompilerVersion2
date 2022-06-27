@@ -2937,7 +2937,9 @@ public class Parser extends java_cup.runtime.lr_parser {
     report_error(message, info);
     throw new RuntimeException("Fatal Syntax Error");
   }
-    private int X = 10, Y = 8;
+    private int X = 10, Y = 8,temp=0;
+
+
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -2991,7 +2993,10 @@ class CUP$Parser$actions {
           case 2: // literal ::= INTEGER_LITERAL 
             {
               Object RESULT =null;
-
+		int nleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int nright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Integer n = (Integer)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		RESULT=n;
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("literal",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3117,7 +3122,10 @@ class CUP$Parser$actions {
           case 16: // integral_type ::= INT 
             {
               Object RESULT =null;
-
+		int nleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int nright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object n = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		RESULT=n;
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("integral_type",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -3817,15 +3825,12 @@ class CUP$Parser$actions {
 		int nright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		Object n = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-			int n_t=0;
-			
-			if(n!=null)n_t=(Integer) n;
-			if(((String)name).equals("x")){
-				//X=n_t;
-				System.out.println("hhhhhhpopphgrdsg");
+		
+			if( ((String)name).equals("x")){
+				X=temp;
 			}
-			else if(((String)name).equals("y")){
-				//Y=n_t;
+			else if( ((String)name).equals("y") ){
+				Y=temp;
 			}
 		
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("variable_declarator",42, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
@@ -5162,7 +5167,15 @@ class CUP$Parser$actions {
           case 241: // primary_no_new_array ::= literal 
             {
               Object RESULT =null;
-
+		int nleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
+		int nright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
+		Object n = (Object)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		
+		RESULT=n;
+		if(n!=null){
+			temp=(Integer)n;
+		}
+		
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("primary_no_new_array",116, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

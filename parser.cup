@@ -70,7 +70,9 @@ parser code  {:
     report_error(message, info);
     throw new RuntimeException("Fatal Syntax Error");
   }
-    private int X = 10, Y = 8;
+    private int X = 10, Y = 8,temp=0;
+
+
 :};
 
 terminal BOOLEAN; // primitive_type
@@ -256,7 +258,7 @@ goal ::=	compilation_unit
 	;
 
 // 19.3) Lexical Structure.
-literal ::=	INTEGER_LITERAL
+literal ::=	INTEGER_LITERAL:n{:RESULT=n;:}
 	|	FLOATING_POINT_LITERAL
 	|	BOOLEAN_LITERAL
 	|	CHARACTER_LITERAL
@@ -278,7 +280,7 @@ numeric_type::=	integral_type
 integral_type ::= 
 		BYTE 
 	|	SHORT 
-	|	INT 
+	|	INT:n{:RESULT=n;:} 
 	|	LONG 
 	|	CHAR 
 	;
@@ -413,30 +415,23 @@ variable_declarators ::=
 		variable_declarator
 	|	variable_declarators COMMA variable_declarator
 	;
-
+//changed
 variable_declarator ::=
 		
 		variable_declarator_id
 	| variable_declarator_id:name EQ variable_initializer:n{:
-			int n_t=0;
-			
-			if(n!=null)n_t=(Integer) n;
-			if((String)name.equal("x")){
-				X=n_t;
-				System.out.println("hhhhhhpopphgrdsg");
+		
+			if( ((String)name).equals("x")){
+				X=temp;
 			}
-			else if((String)name.equal("y")){
-				Y=n_t;
+			else if( ((String)name).equals("y") ){
+				Y=temp;
 			}
 		:}
 	
 	
 	;
-//variable_declarator ::=
-		
-//		variable_declarator_id
-//	|	variable_declarator_id EQ variable_initializer
-//	;
+//changed
 variable_declarator_id ::=
 		IDENTIFIER:tmp {:RESULT=tmp;:}
 	|	variable_declarator_id LBRACK RBRACK
@@ -743,7 +738,12 @@ primary ::=	primary_no_new_array
 	;
 //changed -- literal deleted
 primary_no_new_array ::=
-		literal
+		literal:n{:
+		RESULT=n;
+		if(n!=null){
+			temp=(Integer)n;
+		}
+		:}
 	|	THIS
 	|	LPAREN expression RPAREN
 	|	class_instance_creation_expression
